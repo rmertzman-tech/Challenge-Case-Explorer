@@ -1,33 +1,1302 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Keynote</title>
-        <meta name="viewport" content="initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 1.0, user-scalable = no, width = device-width" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" type="text/css" href="assets/player/styles.css">
-    </head>
-    <body id="body" bgcolor="black">
-        <div id="stageArea">
-            <div id="stage" class="stage">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenger Case Explorer - Ethics Beyond Boundaries</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding-bottom: 3rem;
+        }
+        
+        .heading-font { font-family: 'Playfair Display', serif; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .glass-dark {
+            background: rgba(45, 55, 72, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .fade-in { animation: fadeIn 0.6s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header { position: sticky; top: 0; z-index: 50; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .header-content { max-width: 72rem; margin: 0 auto; padding: 1.5rem; }
+        h1 { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .subtitle { font-size: 0.875rem; opacity: 0.9; }
+        
+        main { max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem; }
+        
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #f093fb);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .timeline-item.active .timeline-dot {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+        
+        .timeline-item.critical .timeline-dot {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+        }
+        
+        .timeline-item.critical.active .timeline-dot {
+            background: #dc2626;
+        }
+        
+        .timeline-date {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-item.critical .timeline-date {
+            color: #dc2626;
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .detail-panel {
+            margin-top: 2rem;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover {
+            border-color: #667eea;
+            background: #f3f4f6;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .tab-content {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .memo-text {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .warning-box {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .warning-box h4 {
+            color: #991b1b;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .quote {
+            font-style: italic;
+            padding: 1rem;
+            border-left: 4px solid #667eea;
+            background: #f3f4f6;
+            margin: 1rem 0;
+        }
+        
+        .prf-box {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .prf-box h4 {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+        
+        .prf-box p {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        
+        .stat-box {
+            display: inline-block;
+            background: #dc2626;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+        }
+        
+        .reflection-prompt {
+            background: #faf5ff;
+            border: 2px solid #9333ea;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .reflection-prompt h3 {
+            color: #581c87;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .reflection-prompt ul {
+            margin-left: 1.5rem;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+        
+        .interactive-box {
+            background: #fefce8;
+            border: 2px solid #facc15;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .interactive-box h4 {
+            color: #854d0e;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .student-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .student-input:focus {
+            outline: none;
+            border-color: #facc15;
+        }
+        
+        .save-indicator {
+            font-size: 0.75rem;
+            color: #16a34a;
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+        
+        .scenario-choice {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .scenario-choice:hover {
+            border-color: #667eea;
+            background: #f9fafb;
+        }
+        
+        .scenario-choice.selected {
+            border-color: #667eea;
+            background: #eff6ff;
+        }
+        
+        .scenario-feedback {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            display: none;
+        }
+        
+        .scenario-feedback.show {
+            display: block;
+        }
+        
+        .my-prf-builder {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .prf-field {
+            margin-bottom: 1rem;
+        }
+        
+        .prf-field label {
+            display: block;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #9333ea, #3b82f6);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #7e22ce, #2563eb);
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 1.5rem;
+            font-size: 0.875rem;
+            opacity: 0.75;
+        }
+        
+        @media print {
+            body { background: white; }
+            .glass { background: white; border: 1px solid #e5e7eb; }
+        }
+    </style>
+</head>
+<body>
+    <header class="glass-dark">
+        <div class="header-content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 class="heading-font">Challenger Case Explorer</h1>
+                    <p class="subtitle">Ethics Beyond Boundaries • The Boisjoly Case</p>
+                </div>
+                <button class="btn btn-primary" onclick="showProgress()" style="padding: 0.5rem 1rem; font-size: 0.875rem;">📊 My Progress</button>
             </div>
-            <div id="hyperlinkPlane" class="stage">
-            </div>
         </div>
-        <div id="slideshowNavigator">
+    </header>
+
+    <main>
+        <div class="card glass fade-in">
+            <h2 class="heading-font" style="font-size: 2rem; margin-bottom: 1rem;">The Challenger Disaster: A Case Study in Institutional Failure</h2>
+            <p style="font-size: 1.125rem; color: #4b5563; line-height: 1.6;">
+                On January 28, 1986, the Space Shuttle Challenger exploded 73 seconds after launch, killing all seven crew members. 
+                But this wasn't an accident - it was a predicted catastrophe. Engineer Roger Boisjoly had warned for months that 
+                the shuttle's design was fundamentally unsafe. This case explores what happens when institutional systems destroy 
+                the people trying to protect us.
+            </p>
         </div>
-        <div id="slideNumberControl">
+
+        <div class="card glass fade-in">
+            <h2 class="heading-font" style="font-size: 1.5rem; margin-bottom: 1.5rem;">📍 Interactive Timeline</h2>
+            <p style="color: #6b7280; margin-bottom: 1.5rem;">Click on any event to explore what happened and analyze the ethical dimensions.</p>
+            
+            <div class="timeline" id="timeline"></div>
         </div>
-        <div id="slideNumberDisplay">
+
+        <div class="card glass fade-in" id="detail-section" style="display: none;">
+            <div class="tab-buttons" id="tab-buttons"></div>
+            <div class="tab-content" id="tab-content"></div>
         </div>
-        <div id="helpPlacard">
-        </div>
-        <div id="waitingIndicator">
-            <div id="waitingSpinner">
-            </div>
-        </div>
-        <script type="text/javascript" src="assets/player/pdfjs/bcmaps.js"></script></body>
-        <script type="text/javascript" src="assets/player/pdfjs/web/compatibility.js"></script></body>
-        <script type="text/javascript" src="assets/player/pdfjs/pdf.js"></script></body>
-        <script type="text/javascript" src="assets/player/main.js"></script></body>
-    </body>
+    </main>
+
+    <footer>
+        <p>Ethics Beyond Boundaries © 2025 • The Boisjoly Lesson: Examine AND Defend</p>
+    </footer>
+
+    <script>
+        const timelineData = [
+            {
+                id: 'discovery',
+                date: 'January 24, 1985',
+                title: 'Discovery of the Fatal Flaw',
+                critical: false,
+                tabs: {
+                    'What Happened': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Cold Launch</h3>
+                            <p style="margin-bottom: 1rem;">Space Shuttle mission STS-51-C launched on January 24, 1985, in 53°F weather - the coldest launch to date. Roger Boisjoly was part of the team that inspected the recovered solid rocket boosters.</p>
+                            
+                            <div class="warning-box">
+                                <h4>What Boisjoly Found:</h4>
+                                <p>Severe primary O-ring erosion and evidence of hot gas blow-by in the field joints. This wasn't just O-ring damage - it revealed a <strong>fundamental design flaw</strong> in how the booster segments connected.</p>
+                            </div>
+                            
+                            <p style="margin-bottom: 1rem;">The field joint design allowed the metal casing to rotate under pressure, creating gaps that the O-rings couldn't seal. Hot combustion gases (5,000°F) had bypassed the primary seal and damaged the secondary seal.</p>
+                            
+                            <div class="info-box">
+                                <p><strong>Critical Realization:</strong> The design was unsafe at ANY temperature. Cold weather made it worse, but the fundamental problem was the joint design itself. Every launch was Russian roulette.</p>
+                            </div>
+                        `
+                    },
+                    "Boisjoly's PRF": {
+                        content: `
+                            <div class="prf-box">
+                                <h4>🔍 His Interpretive Lens: Engineering Reality</h4>
+                                <p style="margin-bottom: 1rem;"><strong>Belief:</strong> "The laws of physics are indifferent to schedules, budgets, and political pressures."</p>
+                                <p style="margin-bottom: 1rem;"><strong>Rule:</strong> "Honor the data. When the data shows a risk, you must act on it."</p>
+                                <p style="margin-bottom: 1rem;"><strong>Ontology (What's Real):</strong> Physical properties and mechanical stress are the fundamental reality. While managers saw "launch schedules" as real, Boisjoly saw "material properties at temperature" as more fundamentally true.</p>
+                                <p><strong>Professional Identity:</strong> "An engineer's primary duty is to public safety. This duty must override any loyalty to a manager or corporation."</p>
+                            </div>
+                            
+                            <div class="quote">
+                                "For me, a system that ignores physical reality in favor of organizational reality is a system doomed to catastrophic failure."
+                            </div>
+                            
+                            <p style="margin-top: 1rem;">Boisjoly's lens made the danger immediately visible to him. His decades of experience with solid rocket motors and seals gave him the expertise to recognize this as a fundamental failure mode, not just a minor anomaly.</p>
+                        `
+                    },
+                    "Management's PRF": {
+                        content: `
+                            <div class="prf-box">
+                                <h4>🏢 Their Interpretive Lens: Organizational Reality</h4>
+                                <p style="margin-bottom: 1rem;"><strong>Belief:</strong> "Engineering concerns must be balanced against schedule, budget, and contractual obligations."</p>
+                                <p style="margin-bottom: 1rem;"><strong>Rule:</strong> "Find ways to accept and fly. Flight rationale can justify continued operations while working on improvements."</p>
+                                <p style="margin-bottom: 1rem;"><strong>Ontology (What's Real):</strong> Political commitments, launch schedules, and NASA contracts were the pressing reality. Engineering data was just one input among many competing pressures.</p>
+                                <p><strong>Professional Identity:</strong> "Our job is to deliver a product on schedule and maintain the customer relationship with NASA."</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <p><strong>The Lens Conflict:</strong> Boisjoly saw "catastrophic design flaw requiring immediate grounding." Management saw "anomaly that can be managed while maintaining flight schedule."</p>
+                            </div>
+                            
+                            <p style="margin-top: 1rem;">Management's lens wasn't malicious - it was shaped by different pressures: contract deadlines, fear of losing NASA business, organizational hierarchies that punished bad news. But this lens made the danger invisible to them.</p>
+                        `
+                    },
+                    'Reflection': {
+                        content: `
+                            <div class="reflection-prompt">
+                                <h3>💭 Questions for Your Own PRF</h3>
+                                <ul>
+                                    <li>When have you seen something dangerous that others didn't notice? What in your assembly history made it visible to you?</li>
+                                    <li>How does your professional training shape what you consider "real" versus what's "just talk"?</li>
+                                    <li>If you discovered a fundamental safety flaw in a system you work with, what would your PRF compel you to do?</li>
+                                    <li>What institutional pressures might make you want to minimize or ignore what you see?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="interactive-box">
+                                <h4>📝 Your Personal Response</h4>
+                                <p style="color: #854d0e; margin-bottom: 0.75rem;">Write your thoughts here. Your responses are saved automatically in your browser.</p>
+                                <textarea class="student-input" id="reflection-discovery" placeholder="Think about a time when you noticed something others didn't see..." onchange="saveReflection('discovery', this.value)"></textarea>
+                                <div class="save-indicator" id="save-discovery" style="display:none;">✓ Saved</div>
+                            </div>
+                        `
+                    }
+                }
+            },
+            {
+                id: 'memo',
+                date: 'July 31, 1985',
+                title: 'The Memo: "Catastrophe of the Highest Order"',
+                critical: true,
+                tabs: {
+                    'The Memo': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Six Months Before Challenger</h3>
+                            <p style="margin-bottom: 1rem;">After months of analysis and additional evidence from other flights, Boisjoly wrote a memo to the Vice President of Engineering at Morton Thiokol. This is what institutional warning looks like when done correctly:</p>
+                            
+                            <div class="memo-text">SUBJECT: SRM O-RING EROSION/POTENTIAL FAILURE CRITICALITY
+
+The result would be a catastrophe of the highest order—loss of the shuttle and the crew.
+
+"IT IS MY OPINION THAT THE HIGH RATE OF PRIMARY O-RING EROSION AND THE FAILURE OF THE SECONDARY O-RING TO SEAL WHEN THE PRIMARY O-RING HAS FAILED, REPRESENTS A CRITICAL SAFETY PROBLEM. THE IMPLICATIONS ARE HUGE. IT IS MY ROUGH ESTIMATE THAT THE FAILURE PROBABILITY FOR THE SECONDARY SEAL IS CURRENTLY AT LEAST 15 PERCENT PER FLIGHT (AND THIS IS LIKELY OPTIMISTIC). THE RESULTANT LOSS OF THE VEHICLE AND CREW IS A POSSIBILITY OF WHICH WE ARE NOT WILLING TO ACCEPT. WE NEED TO FIX IT BEFORE THE NEXT FLIGHT."
+
+— R. M. Boisjoly
+Applied Mechanics Section
+SRM Engineering
+31 July 1985</div>
+
+                            <div class="warning-box">
+                                <h4>⚠️ What This Memo Means</h4>
+                                <p style="margin-bottom: 0.5rem;"><strong>Explicit prediction:</strong> "loss of the shuttle and the crew"</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>Quantified risk:</strong> <span class="stat-box">15% failure per flight</span></p>
+                                <p style="margin-bottom: 0.5rem;"><strong>Clear demand:</strong> "FIX IT BEFORE THE NEXT FLIGHT"</p>
+                                <p><strong>Written in ALL CAPS for emphasis</strong> - impossible to misunderstand</p>
+                            </div>
+                            
+                            <p style="margin-top: 1rem; font-weight: 600; color: #991b1b;">This memo was written <strong>six months</strong> before the Challenger disaster. Management received explicit warning. They chose to keep flying.</p>
+                        `
+                    },
+                    'What Happened Next': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Response</h3>
+                            
+                            <div class="info-box">
+                                <p><strong>August 1985 - January 1986:</strong> Morton Thiokol and NASA continued shuttle operations. A task force was formed to "work on redesigning" the joint, but flights continued.</p>
+                            </div>
+                            
+                            <p style="margin-bottom: 1rem;">Management's logic: "We'll keep flying while we work on improvements. We've been flying with this issue and getting away with it. We can manage the risk."</p>
+                            
+                            <div class="prf-box">
+                                <h4>The System's Response to Warning</h4>
+                                <p style="margin-bottom: 1rem;">1. <strong>Acknowledge but minimize:</strong> "Yes, it's a concern, but not critical enough to ground the fleet"</p>
+                                <p style="margin-bottom: 1rem;">2. <strong>Form a committee:</strong> Create a task force to study the problem (while continuing operations)</p>
+                                <p style="margin-bottom: 1rem;">3. <strong>Normalize the deviation:</strong> "We've been flying with this issue successfully"</p>
+                                <p>4. <strong>Isolate the warner:</strong> Boisjoly becomes known as "the problem guy" who raises uncomfortable issues</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>The Critical Question</h4>
+                                <p>Boisjoly did everything right: documented the risk, quantified the danger, used proper channels, wrote in all caps, demanded action. <strong>The system ignored him anyway.</strong></p>
+                                <p style="margin-top: 0.5rem;">What more could he have done? What does it mean when doing everything right isn't enough?</p>
+                            </div>
+                        `
+                    },
+                    'The Math': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Russian Roulette They Were Playing</h3>
+                            
+                            <p style="margin-bottom: 1rem;">Boisjoly estimated a <strong>15% failure probability per flight</strong>. Let's do the math on what that means:</p>
+                            
+                            <div class="prf-box">
+                                <h4>Probability of Survival</h4>
+                                <p style="margin-bottom: 0.5rem;"><strong>1 flight:</strong> 85% chance of survival</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>5 flights:</strong> 44% chance all survive</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>10 flights:</strong> 20% chance all survive</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>25 flights:</strong> 2% chance all survive</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>From July 1985 to January 1986</h4>
+                                <p style="margin-bottom: 0.5rem;"><strong>Time elapsed:</strong> 6 months</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>Shuttle flights during this period:</strong> 7 missions</p>
+                                <p style="margin-bottom: 0.5rem;"><strong>Challenger (STS-51-L):</strong> 8th flight since the memo</p>
+                                <p style="font-weight: 700; margin-top: 1rem;">With a 15% failure rate per flight, they had approximately a <span class="stat-box">75% chance</span> that at least one of those 8 flights would fail catastrophically.</p>
+                            </div>
+                            
+                            <p style="margin-top: 1rem; font-style: italic; color: #4b5563;">This wasn't bad luck. This was predictable outcome of ignoring quantified risk. The disaster was a matter of "when," not "if."</p>
+                        `
+                    },
+                    'Reflection': {
+                        content: `
+                            <div class="reflection-prompt">
+                                <h3>💭 Questions for Your Career</h3>
+                                <ul>
+                                    <li>Have you ever warned about a serious problem using proper channels and been ignored? How did that affect your sense of agency?</li>
+                                    <li>What does "doing everything right" look like in your field? Is it enough?</li>
+                                    <li>If you quantified a 15% catastrophic failure rate in something you work on, what would your professional ethics require you to do?</li>
+                                    <li>When systems normalize dangerous deviations, what's your responsibility? At what point do you go outside normal channels?</li>
+                                    <li>How do you protect your forward pull (who you're becoming) when institutions punish people who raise uncomfortable truths?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="interactive-box">
+                                <h4>🎯 Decision Simulator: Six Months Later</h4>
+                                <p style="color: #854d0e; margin-bottom: 1rem;">It's now January 1986. You're Boisjoly. Your July memo was acknowledged but ignored. They've been flying for 6 months with the flaw you documented. What do you do?</p>
+                                
+                                <div class="scenario-choice" onclick="selectChoice('memo', 1)">
+                                    <strong>Option 1: Keep using internal channels</strong>
+                                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">Continue writing memos, attending meetings, arguing within the system. Trust that persistence will eventually work.</p>
+                                </div>
+                                
+                                <div class="scenario-choice" onclick="selectChoice('memo', 2)">
+                                    <strong>Option 2: Go to the press</strong>
+                                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">Contact journalists. Public pressure might force action. But you'll likely be fired and blacklisted from the industry.</p>
+                                </div>
+                                
+                                <div class="scenario-choice" onclick="selectChoice('memo', 3)">
+                                    <strong>Option 3: Resign publicly</strong>
+                                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">Quit and write a public letter explaining why. Distance yourself from the disaster you see coming. But people might still die.</p>
+                                </div>
+                                
+                                <div class="scenario-choice" onclick="selectChoice('memo', 4)">
+                                    <strong>Option 4: Stay and document everything</strong>
+                                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">Remain at your post. Continue to object. Keep meticulous records. If disaster happens, the truth will be documented.</p>
+                                </div>
+                                
+                                <div class="scenario-feedback" id="feedback-memo"></div>
+                            </div>
+                            
+                            <div class="interactive-box" style="margin-top: 1rem;">
+                                <h4>📝 What Would You Actually Do?</h4>
+                                <textarea class="student-input" id="reflection-memo" placeholder="Be honest: What would you actually do in this situation? What factors would influence your decision?" onchange="saveReflection('memo', this.value)"></textarea>
+                                <div class="save-indicator" id="save-memo" style="display:none;">✓ Saved</div>
+                            </div>
+                        `
+                    }
+                }
+            },
+            {
+                id: 'teleconference',
+                date: 'January 27, 1986',
+                title: 'The Night Before: Teleconference',
+                critical: true,
+                tabs: {
+                    'What Happened': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Meeting That Failed</h3>
+                            
+                            <p style="margin-bottom: 1rem;">The night before the Challenger launch, with temperatures predicted to be in the low 20s°F at launch time, Morton Thiokol engineers held a teleconference with NASA to discuss the launch decision.</p>
+                            
+                            <div class="info-box">
+                                <p><strong>Context:</strong> This wasn't just about cold weather. The fundamental design flaw that Boisjoly had documented for months was about to be tested at temperatures far outside any previous experience.</p>
+                            </div>
+                            
+                            <div class="prf-box">
+                                <h4>Boisjoly's Recommendation</h4>
+                                <p style="margin-bottom: 1rem;">Don't launch. The cold temperature would make an already-unsafe joint design even more dangerous. But his real position - consistent since the July memo - was that <strong>they shouldn't be flying at all</strong> until the joint was redesigned.</p>
+                                <p style="font-style: italic;">"I argued that we shouldn't fly. I showed the data. I explained the physics. I made it clear this was not a close call - it was dangerous."</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>Management's Response</h4>
+                                <p style="margin-bottom: 0.5rem;">NASA pushed back hard: "When do you want to launch, next April?"</p>
+                                <p style="margin-bottom: 0.5rem;">Morton Thiokol managers, feeling pressure, asked for a break in the teleconference.</p>
+                                <p style="margin-bottom: 0.5rem;">During the break, Thiokol's VP of Engineering told the engineers: "Take off your engineering hat and put on your management hat."</p>
+                                <p style="font-weight: 700; margin-top: 1rem;">Morton Thiokol management overruled their engineers and recommended launch.</p>
+                            </div>
+                            
+                            <div class="quote">
+                                "I felt personally that management was under a lot of pressure to launch and that they made a very tough decision, but I didn't agree with it." — Roger Boisjoly
+                            </div>
+                        `
+                    },
+                    'The Pressure System': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">How Systems Destroy Agency</h3>
+                            
+                            <p style="margin-bottom: 1rem;">This teleconference reveals how institutional pressure destroys individual agency, even when people have done everything right.</p>
+                            
+                            <div class="prf-box">
+                                <h4>The Pressures on Management</h4>
+                                <p style="margin-bottom: 0.5rem;">• <strong>NASA relationship:</strong> Morton Thiokol was a contractor - saying "no" to NASA risked future contracts</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Schedule pressure:</strong> The launch had already been delayed multiple times</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Political visibility:</strong> Teacher Christa McAuliffe was on board - high public interest</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Normalized deviation:</strong> "We've launched 24 times since July with this problem"</p>
+                                <p>• <strong>Burden of proof:</strong> NASA demanded engineers prove it was unsafe, rather than proving it was safe</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>The Impossible Position</h4>
+                                <p style="margin-bottom: 1rem;">Boisjoly was asked to prove something would definitely fail, when engineering is about probabilities. You can't prove a probabilistic event will occur on a specific flight - you can only show the risk is unacceptable.</p>
+                                <p style="font-weight: 700;">The system required certainty where only probability exists. This makes it structurally impossible to prevent probabilistic disasters.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <p><strong>What "Take off your engineering hat" really meant:</strong> Stop thinking about physical reality and technical truth. Start thinking about organizational reality and relationship management. In other words: <em>change your PRF to match the system's needs.</em></p>
+                            </div>
+                        `
+                    },
+                    'Boisjoly\'s Moral Position': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Limits of Individual Agency</h3>
+                            
+                            <div class="prf-box">
+                                <h4>What Boisjoly Did Right</h4>
+                                <p style="margin-bottom: 0.5rem;">✓ Documented the flaw when discovered (January 1985)</p>
+                                <p style="margin-bottom: 0.5rem;">✓ Wrote formal memo with explicit warning (July 1985)</p>
+                                <p style="margin-bottom: 0.5rem;">✓ Quantified the risk (15% failure rate)</p>
+                                <p style="margin-bottom: 0.5rem;">✓ Used proper channels and escalation</p>
+                                <p style="margin-bottom: 0.5rem;">✓ Advocated clearly in the teleconference</p>
+                                <p style="margin-bottom: 0.5rem;">✓ Maintained his professional integrity throughout</p>
+                            </div>
+                            
+                            <div class="quote">
+                                "I made the best engineering judgment I could based on the data. I presented it clearly. Management made a different decision. What more could I have done?" — Roger Boisjoly's reflection
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>The Devastating Question</h4>
+                                <p style="margin-bottom: 1rem;">Boisjoly did everything an engineer is supposed to do. He honored his professional code. He protected his authenticity and forward pull. He maintained his coherence.</p>
+                                <p style="font-weight: 700; font-size: 1.125rem;">And seven people died anyway.</p>
+                                <p style="margin-top: 1rem;">This is the reality of systemic failure: <strong>individual integrity is necessary but not sufficient.</strong> When systems are designed to ignore warnings, doing everything right isn't enough.</p>
+                            </div>
+                        `
+                    },
+                    'Reflection': {
+                        content: `
+                            <div class="reflection-prompt">
+                                <h3>💭 The Deepest Questions</h3>
+                                <ul>
+                                    <li>If you were in Boisjoly's position - having done everything right and still being overruled - what would you do?</li>
+                                    <li>At what point does "following proper channels" become complicity when you know people will die?</li>
+                                    <li>Should Boisjoly have gone public before the launch? What would that have cost him? Would it have worked?</li>
+                                    <li>How do you maintain your forward pull (who you're becoming) when the system makes it impossible to prevent harm?</li>
+                                    <li>What would a system that actually protected whistleblowers look like? Why don't we have it?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="interactive-box">
+                                <h4>⚖️ Your Line in the Sand</h4>
+                                <p style="color: #854d0e; margin-bottom: 1rem;">Everyone has limits. What would make YOU go outside proper channels and risk everything?</p>
+                                <textarea class="student-input" id="reflection-teleconference" placeholder="Describe a situation where you would break rules, risk your career, or go public to prevent harm..." onchange="saveReflection('teleconference', this.value)"></textarea>
+                                <div class="save-indicator" id="save-teleconference" style="display:none;">✓ Saved</div>
+                            </div>
+                        `
+                    }
+                }
+            },
+            {
+                id: 'disaster',
+                date: 'January 28, 1986',
+                title: 'The Disaster: 73 Seconds',
+                critical: true,
+                tabs: {
+                    'What Happened': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Exactly As Predicted</h3>
+                            
+                            <div class="warning-box">
+                                <h4>11:38 AM EST</h4>
+                                <p style="margin-bottom: 1rem;">Space Shuttle Challenger launched in 36°F weather - the coldest launch in shuttle program history.</p>
+                                <p style="margin-bottom: 1rem;"><strong>73 seconds after liftoff:</strong> Hot gas breached the right solid rocket booster's aft field joint - exactly the failure mode Boisjoly had warned about.</p>
+                                <p style="margin-bottom: 1rem;">The hot gas burned through the external fuel tank. The shuttle broke apart. All seven crew members were killed.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <p><strong>The Crew:</strong></p>
+                                <p>• Francis R. Scobee, Commander</p>
+                                <p>• Michael J. Smith, Pilot</p>
+                                <p>• Ronald McNair, Mission Specialist</p>
+                                <p>• Ellison Onizuka, Mission Specialist</p>
+                                <p>• Judith Resnik, Mission Specialist</p>
+                                <p>• Gregory Jarvis, Payload Specialist</p>
+                                <p>• Christa McAuliffe, Teacher in Space</p>
+                            </div>
+                            
+                            <div class="quote" style="background: #fee2e2; border-left-color: #dc2626;">
+                                "I had a sickening feeling when I saw the flames. I knew what had happened. I knew exactly what had happened. We had warned them. We had told them. And they flew anyway."
+                            </div>
+                            
+                            <p style="margin-top: 1rem; font-weight: 600;">The disaster was not a surprise to Boisjoly. It was the confirmation of what he had been warning about for 18 months. His July 1985 memo had explicitly predicted "loss of the shuttle and the crew." His prediction came true.</p>
+                        `
+                    },
+                    'The Investigation': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">The Rogers Commission</h3>
+                            
+                            <p style="margin-bottom: 1rem;">President Reagan appointed the Rogers Commission to investigate the disaster. The commission included physicist Richard Feynman, who famously demonstrated the O-ring problem by dunking a sample in ice water during a public hearing.</p>
+                            
+                            <div class="prf-box">
+                                <h4>What the Investigation Found</h4>
+                                <p style="margin-bottom: 0.5rem;">• The immediate cause was O-ring failure in the right solid rocket booster</p>
+                                <p style="margin-bottom: 0.5rem;">• The cold temperature had reduced O-ring resilience</p>
+                                <p style="margin-bottom: 0.5rem;">• But the underlying cause was the flawed field joint design</p>
+                                <p style="margin-bottom: 0.5rem;">• Morton Thiokol and NASA had known about the problem for years</p>
+                                <p style="margin-bottom: 0.5rem;">• Engineers had repeatedly warned management</p>
+                                <p>• Management had chosen to continue flying</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>The Commission's Conclusion</h4>
+                                <p style="margin-bottom: 1rem;">"The decision to launch the Challenger was flawed. Those who made that decision were unaware of the recent history of problems concerning the O-rings and the joint and were unaware of the initial written recommendation of the contractor advising against the launch at temperatures below 53 degrees Fahrenheit..."</p>
+                                <p style="font-weight: 700;">This was false. Management knew. They had Boisjoly's memo. They had attended the teleconference. They chose to discount the warnings.</p>
+                            </div>
+                        `
+                    },
+                    'Boisjoly Testifies': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">Truth at the Cost of Everything</h3>
+                            
+                            <p style="margin-bottom: 1rem;">Roger Boisjoly was called to testify before the Rogers Commission. He faced an impossible choice:</p>
+                            
+                            <div class="prf-box">
+                                <h4>The Choice</h4>
+                                <p style="margin-bottom: 1rem;"><strong>Option 1:</strong> Be loyal to Morton Thiokol. Minimize the warnings. Protect his career and his colleagues.</p>
+                                <p style="margin-bottom: 1rem;"><strong>Option 2:</strong> Tell the complete truth. Show the memos. Explain what management knew and when. End his career.</p>
+                            </div>
+                            
+                            <div class="quote">
+                                "I was torn between loyalty to my employer and loyalty to the truth and to the crew that had died. But there was really no choice. The crew was dead. The truth was the only thing left to protect."
+                            </div>
+                            
+                            <p style="margin-bottom: 1rem;">Boisjoly testified fully and honestly. He provided his memos. He explained the warnings. He detailed the teleconference. He made clear that management had known the risks and launched anyway.</p>
+                            
+                            <div class="warning-box">
+                                <h4>The Consequences</h4>
+                                <p style="margin-bottom: 0.5rem;">• Isolated at work - colleagues stopped speaking to him</p>
+                                <p style="margin-bottom: 0.5rem;">• Removed from meaningful engineering work</p>
+                                <p style="margin-bottom: 0.5rem;">• Suffered severe stress and depression</p>
+                                <p style="margin-bottom: 0.5rem;">• Eventually took disability leave</p>
+                                <p style="font-weight: 700; margin-top: 1rem;">His career at Morton Thiokol was effectively over. The system punished the truth-teller, not the decision-makers.</p>
+                            </div>
+                        `
+                    },
+                    'Reflection': {
+                        content: `
+                            <div class="reflection-prompt">
+                                <h3>💭 The Cost of Integrity</h3>
+                                <ul>
+                                    <li>Boisjoly maintained his authenticity by testifying honestly. But it destroyed his career. Was it worth it?</li>
+                                    <li>What does it mean that the system punished the whistleblower but not the managers who ignored his warnings?</li>
+                                    <li>If you knew that telling the truth would end your career and make you an outcast, would you do it?</li>
+                                    <li>How do we design systems that protect people like Boisjoly instead of destroying them?</li>
+                                    <li>What responsibility do we have when we see systems punishing ethical behavior?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="interactive-box">
+                                <h4>🔍 Identifying Your "Boisjoly Moment"</h4>
+                                <p style="color: #854d0e; margin-bottom: 1rem;">Have you ever experienced (or witnessed) a moment where someone was punished for doing the right thing?</p>
+                                <textarea class="student-input" id="reflection-disaster" placeholder="Describe what happened and how it affected everyone involved..." onchange="saveReflection('disaster', this.value)"></textarea>
+                                <div class="save-indicator" id="save-disaster" style="display:none;">✓ Saved</div>
+                            </div>
+                        `
+                    }
+                }
+            },
+            {
+                id: 'rebuilding',
+                date: '1987-2012',
+                title: 'Rebuilding: New Purpose from Tragedy',
+                critical: false,
+                tabs: {
+                    'The Forward Pull': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">From Professional Destruction to Ethical Educator</h3>
+                            
+                            <p style="margin-bottom: 1rem;">After leaving Morton Thiokol, Boisjoly could have disappeared into bitterness. Instead, he found new purpose.</p>
+                            
+                            <div class="prf-box">
+                                <h4>His Forward Pull: The Identity Kernel That Survived</h4>
+                                <p style="margin-bottom: 1rem; font-weight: 600; font-size: 1.125rem;">"I am a professional engineer who serves public safety."</p>
+                                <p style="margin-bottom: 1rem;">This identity remained intact even after his career was destroyed. When his old constructors (his job, his workplace relationships, his professional standing) were taken away, the core identity remained.</p>
+                                <p>And that identity kernel demanded new constructors serving the same purpose.</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <h4>The New Constructors</h4>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Ethics educator:</strong> Traveled to engineering schools nationwide</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Case study subject:</strong> The Challenger disaster became required teaching in engineering ethics</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Expert witness:</strong> Testified in cases involving engineering ethics and whistleblower protection</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Public speaker:</strong> Shared his story to prevent future disasters</p>
+                            </div>
+                            
+                            <div class="quote">
+                                "If my story can prevent one future engineer from staying silent when they see danger, then maybe the disaster wasn't completely meaningless. Maybe something good can come from it."
+                            </div>
+                            
+                            <p style="margin-top: 1rem;">Boisjoly transformed his personal tragedy into a lesson for the next generation. He ensured that what happened to him - and to the Challenger crew - would be remembered as a moral case study, not just a technical failure.</p>
+                        `
+                    },
+                    'What Protected Him': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">How Boisjoly Maintained Coherence</h3>
+                            
+                            <p style="margin-bottom: 1rem;">Despite losing his career, being ostracized, suffering depression, and living with the knowledge that people died after his warnings were ignored, Boisjoly eventually rebuilt a meaningful life. What protected him?</p>
+                            
+                            <div class="prf-box">
+                                <h4>1. Clear Forward Pull</h4>
+                                <p>His identity as "an engineer who serves public safety" was more fundamental than any specific job. This meant his core purpose survived even when the specific constructors were destroyed.</p>
+                            </div>
+                            
+                            <div class="prf-box">
+                                <h4>2. Professional Code as Anchor</h4>
+                                <p>The engineering code of ethics - "hold paramount the safety, health and welfare of the public" - gave him an external standard that validated his choices even when his employer punished him.</p>
+                            </div>
+                            
+                            <div class="prf-box">
+                                <h4>3. Documentation</h4>
+                                <p>His meticulous memos and notes proved he had done everything right. This protected him from self-doubt and gaslighting. He knew he had honored his professional duty.</p>
+                            </div>
+                            
+                            <div class="prf-box">
+                                <h4>4. Ability to Build New Constructors</h4>
+                                <p>He could teach, speak, write, and testify. His expertise remained valuable even outside traditional employment. He found new ways to serve the same purpose.</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>What This Teaches Us</h4>
+                                <p style="margin-bottom: 1rem;">Boisjoly's survival wasn't about being unaffected by trauma. He suffered greatly. But he maintained <strong>coherence</strong> - alignment between his beliefs, his identity, and his actions.</p>
+                                <p style="font-weight: 700;">His forward pull was strong enough to survive the destruction of his specific career path. That's what protection looks like.</p>
+                            </div>
+                        `
+                    },
+                    'The Lesson for Systems': {
+                        content: `
+                            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">What Would Have Actually Protected Him?</h3>
+                            
+                            <p style="margin-bottom: 1rem;">Individual resilience is important, but it's not enough. We need systems that don't destroy people who try to protect us.</p>
+                            
+                            <div class="prf-box">
+                                <h4>System-Level Protections Needed</h4>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Burden of proof reversal:</strong> Require proof of safety, not proof of danger</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Anonymous escalation paths:</strong> Ways to raise concerns outside the chain of command</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Whistleblower protection with teeth:</strong> Real legal protection and economic security</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Organizational separation:</strong> Safety oversight independent from operational pressure</p>
+                                <p style="margin-bottom: 0.5rem;">• <strong>Reward structure changes:</strong> Career advancement for raising concerns, not suppressing them</p>
+                                <p>• <strong>Documentation requirements:</strong> Explicit written justification required for overruling engineering recommendations</p>
+                            </div>
+                            
+                            <div class="info-box">
+                                <p><strong>The Current Reality:</strong> Most industries still operate like pre-Challenger NASA. Whistleblowers are still punished. Safety concerns are still minimized for schedule pressure. We haven't fixed the systemic problems.</p>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <h4>Why This Matters to You</h4>
+                                <p style="margin-bottom: 1rem;">You will work in systems. Some of those systems will have safety-critical functions. Some will pressure you to stay quiet about problems.</p>
+                                <p style="font-weight: 700;">The question isn't "Will I face an ethical dilemma?" The question is "When I face one, will I have the protections and the forward pull to maintain my coherence?"</p>
+                            </div>
+                        `
+                    },
+                    'Reflection': {
+                        content: `
+                            <div class="reflection-prompt">
+                                <h3>💭 Building Your Own Protections</h3>
+                                <ul>
+                                    <li>What is YOUR forward pull? What identity kernel would survive even if your current career path were destroyed?</li>
+                                    <li>Are you building capabilities that serve a purpose larger than any specific job?</li>
+                                    <li>Do you document your professional decisions? Would you have evidence if you were questioned later?</li>
+                                    <li>What professional code or external standard can you appeal to when organizational pressure conflicts with your ethics?</li>
+                                    <li>Are you developing alternative constructors - other ways to use your expertise if your current path becomes untenable?</li>
+                                    <li>How will you recognize when you're in a "Boisjoly moment" - when you need to speak up despite consequences?</li>
+                                    <li>What systems-level changes would you advocate for in your field to protect future whistleblowers?</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="my-prf-builder">
+                                <h4 style="color: #92400e; margin-bottom: 1rem;">🛡️ Build Your Protection: Define Your Forward Pull</h4>
+                                <p style="color: #78350f; margin-bottom: 1rem;">Boisjoly's identity kernel - "I am an engineer who serves public safety" - survived his career destruction. What's yours?</p>
+                                
+                                <div class="prf-field">
+                                    <label>My Core Identity (who am I, regardless of job title?):</label>
+                                    <textarea class="student-input" id="my-identity" placeholder="Example: I am someone who protects vulnerable people from harm..." onchange="saveReflection('my-identity', this.value)"></textarea>
+                                </div>
+                                
+                                <div class="prf-field">
+                                    <label>My Non-Negotiable Rule (what line won't I cross?):</label>
+                                    <textarea class="student-input" id="my-rule" placeholder="Example: I will not stay silent when I know people are being harmed..." onchange="saveReflection('my-rule', this.value)"></textarea>
+                                </div>
+                                
+                                <div class="prf-field">
+                                    <label>My Alternative Constructors (other ways to serve my purpose if current path fails):</label>
+                                    <textarea class="student-input" id="my-constructors" placeholder="Example: Teaching, consulting, advocacy work, writing..." onchange="saveReflection('my-constructors', this.value)"></textarea>
+                                </div>
+                                
+                                <div class="save-indicator" id="save-rebuilding" style="display:none;">✓ All responses saved</div>
+                                
+                                <button class="btn btn-primary" onclick="showComparison()" style="margin-top: 1rem; padding: 0.75rem 1.5rem;">Compare My PRF to Boisjoly's</button>
+                                
+                                <div id="comparison-display" style="display: none; margin-top: 1.5rem;"></div>
+                            </div>
+                            
+                            <div class="interactive-box" style="margin-top: 1rem;">
+                                <h4>📥 Export Your Reflections</h4>
+                                <p style="color: #854d0e; margin-bottom: 1rem;">Save all your responses from this case study to review later or submit for class.</p>
+                                <button class="btn btn-primary" onclick="exportReflections()" style="padding: 0.75rem 1.5rem;">Download My Reflections</button>
+                            </div>
+                        `
+                    }
+                }
+            }
+        ];
+
+        let currentEventId = null;
+        let currentTab = null;
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = timelineData.map(event => `
+                <div class="timeline-item ${event.critical ? 'critical' : ''} ${currentEventId === event.id ? 'active' : ''}" 
+                     onclick="selectEvent('${event.id}')">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">${event.date}</div>
+                    <div class="timeline-title">${event.title}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectEvent(eventId) {
+            currentEventId = eventId;
+            const event = timelineData.find(e => e.id === eventId);
+            currentTab = Object.keys(event.tabs)[0];
+            renderTimeline();
+            renderDetailPanel(event);
+            document.getElementById('detail-section').style.display = 'block';
+            document.getElementById('detail-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function renderDetailPanel(event) {
+            const tabButtons = document.getElementById('tab-buttons');
+            const tabContent = document.getElementById('tab-content');
+            
+            // Clear and rebuild buttons
+            tabButtons.innerHTML = '';
+            Object.keys(event.tabs).forEach(tabName => {
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${currentTab === tabName ? 'active' : ''}`;
+                btn.textContent = tabName;
+                btn.onclick = () => selectTab(event.id, tabName);
+                tabButtons.appendChild(btn);
+            });
+            
+            tabContent.innerHTML = event.tabs[currentTab].content;
+        }
+
+        function selectTab(eventId, tabName) {
+            currentTab = tabName;
+            const event = timelineData.find(e => e.id === eventId);
+            renderDetailPanel(event);
+        }
+
+        window.selectEvent = selectEvent;
+        window.selectTab = selectTab;
+        
+        // Interactive features
+        function saveReflection(key, value) {
+            try {
+                localStorage.setItem(`challenger_reflection_${key}`, value);
+                const indicator = document.getElementById(`save-${key}`);
+                if (indicator) {
+                    indicator.style.display = 'block';
+                    setTimeout(() => indicator.style.display = 'none', 2000);
+                }
+            } catch (e) {
+                console.log('Could not save to localStorage');
+            }
+        }
+        
+        function loadReflection(key) {
+            try {
+                return localStorage.getItem(`challenger_reflection_${key}`) || '';
+            } catch (e) {
+                return '';
+            }
+        }
+        
+        function selectChoice(scenario, choice) {
+            // Remove previous selection
+            document.querySelectorAll('.scenario-choice').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.scenario-choice').classList.add('selected');
+            
+            // Show feedback
+            const feedback = document.getElementById(`feedback-${scenario}`);
+            const feedbacks = {
+                1: `<h4 style="font-weight: 700; margin-bottom: 0.5rem;">The Path Boisjoly Chose</h4>
+                    <p>This is what Boisjoly did. He continued using internal channels, writing memos, attending meetings, making his case with data.</p>
+                    <p style="margin-top: 0.5rem;"><strong>Result:</strong> He maintained his professional standing but couldn't prevent the disaster. His documentation became crucial evidence later, but seven people died.</p>
+                    <p style="margin-top: 0.5rem; font-style: italic;">Question: Was this the right choice? Or does staying within the system become complicity?</p>`,
+                2: `<h4 style="font-weight: 700; margin-bottom: 0.5rem;">The Nuclear Option</h4>
+                    <p>Going public before the disaster would have been career suicide. Boisjoly would likely have been fired immediately and blacklisted from aerospace. Morton Thiokol would have denied the claims.</p>
+                    <p style="margin-top: 0.5rem;"><strong>Would it have worked?</strong> Maybe. Public pressure might have forced a fleet grounding. Or NASA might have dismissed it as a disgruntled employee. We'll never know.</p>
+                    <p style="margin-top: 0.5rem; font-style: italic;">The whistleblower paradox: You have to sacrifice everything to maybe prevent harm.</p>`,
+                3: `<h4 style="font-weight: 700; margin-bottom: 0.5rem;">Washing Your Hands</h4>
+                    <p>Resigning publicly would have protected Boisjoly's conscience - "I'm not part of this anymore." But it wouldn't have stopped the launches. Someone else would have been in his position, maybe someone less knowledgeable or less willing to fight.</p>
+                    <p style="margin-top: 0.5rem;"><strong>The problem:</strong> Walking away can feel like abandoning your post. If you're the person who sees the danger, do you have a duty to stay and keep fighting even when it's hopeless?</p>`,
+                4: `<h4 style="font-weight: 700; margin-bottom: 0.5rem;">The Long Game</h4>
+                    <p>Document everything. Create an unassailable record. If disaster strikes, the truth will be preserved. This was actually part of what Boisjoly did - his meticulous memos became the evidence that exposed management's failures.</p>
+                    <p style="margin-top: 0.5rem;"><strong>The wisdom:</strong> You may not be able to prevent the disaster, but you can ensure the truth survives it. Future systems can learn from the documented failure.</p>
+                    <p style="margin-top: 0.5rem; font-style: italic;">But is "creating evidence for after the disaster" enough when you know people will die?</p>`
+            };
+            
+            feedback.innerHTML = feedbacks[choice];
+            feedback.classList.add('show');
+        }
+        
+        function exportReflections() {
+            const reflections = {
+                discovery: loadReflection('discovery'),
+                memo: loadReflection('memo'),
+                teleconference: loadReflection('teleconference'),
+                disaster: loadReflection('disaster'),
+                identity: loadReflection('my-identity'),
+                rule: loadReflection('my-rule'),
+                constructors: loadReflection('my-constructors')
+            };
+            
+            const text = `CHALLENGER CASE EXPLORER - MY REFLECTIONS
+${'='.repeat(60)}
+
+DISCOVERY REFLECTION:
+${reflections.discovery || '(Not completed)'}
+
+MEMO DECISION SIMULATOR:
+${reflections.memo || '(Not completed)'}
+
+TELECONFERENCE - MY LINE IN THE SAND:
+${reflections.teleconference || '(Not completed)'}
+
+DISASTER - MY BOISJOLY MOMENT:
+${reflections.disaster || '(Not completed)'}
+
+MY FORWARD PULL - CORE IDENTITY:
+${reflections.identity || '(Not completed)'}
+
+MY NON-NEGOTIABLE RULE:
+${reflections.rule || '(Not completed)'}
+
+MY ALTERNATIVE CONSTRUCTORS:
+${reflections.constructors || '(Not completed)'}
+
+${'='.repeat(60)}
+Generated: ${new Date().toLocaleString()}
+Ethics Beyond Boundaries - Challenger Case Explorer
+`;
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Challenger_Case_Reflections.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        window.saveReflection = saveReflection;
+        window.selectChoice = selectChoice;
+        window.exportReflections = exportReflections;
+        
+        function showComparison() {
+            const myIdentity = loadReflection('my-identity');
+            const myRule = loadReflection('my-rule');
+            const myConstructors = loadReflection('my-constructors');
+            
+            if (!myIdentity && !myRule && !myConstructors) {
+                alert('Please fill out at least one field above to see the comparison.');
+                return;
+            }
+            
+            const display = document.getElementById('comparison-display');
+            display.innerHTML = `
+                <h4 style="color: #92400e; font-weight: 700; margin-bottom: 1rem;">🔍 Your PRF vs. Boisjoly's PRF</h4>
+                <div class="comparison-grid">
+                    <div>
+                        <h5 style="font-weight: 700; color: #667eea; margin-bottom: 0.75rem;">Your Forward Pull</h5>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; border: 2px solid #e5e7eb; min-height: 100px;">
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Core Identity:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem; margin-bottom: 1rem;">${myIdentity || '<em>Not yet defined</em>'}</p>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Non-Negotiable Rule:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem; margin-bottom: 1rem;">${myRule || '<em>Not yet defined</em>'}</p>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Alternative Paths:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem;">${myConstructors || '<em>Not yet defined</em>'}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 style="font-weight: 700; color: #f59e0b; margin-bottom: 0.75rem;">Boisjoly's Forward Pull</h5>
+                        <div style="background: #fffbeb; padding: 1rem; border-radius: 0.5rem; border: 2px solid #fde047; min-height: 100px;">
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Core Identity:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem; margin-bottom: 1rem;">"I am a professional engineer who serves public safety."</p>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Non-Negotiable Rule:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem; margin-bottom: 1rem;">"I cannot live with myself if I remain silent when I know people will die."</p>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">Alternative Paths:</p>
+                            <p style="color: #4b5563; font-size: 0.875rem;">Ethics educator, expert witness, public speaker, case study contributor</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: #f0f9ff; border: 2px solid #0ea5e9; border-radius: 0.5rem; padding: 1rem; margin-top: 1rem;">
+                    <p style="font-weight: 600; color: #0c4a6e; margin-bottom: 0.5rem;">💡 Reflection:</p>
+                    <p style="color: #0c4a6e; font-size: 0.875rem;">Compare these frameworks. Is your identity tied to a specific job or a larger purpose? Do you have alternative ways to serve that purpose if your current path becomes untenable? Would your forward pull survive career destruction?</p>
+                </div>
+            `;
+            display.style.display = 'block';
+            display.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        window.showComparison = showComparison;
+        
+        function showProgress() {
+            const reflections = {
+                discovery: loadReflection('discovery'),
+                memo: loadReflection('memo'),
+                teleconference: loadReflection('teleconference'),
+                disaster: loadReflection('disaster'),
+                identity: loadReflection('my-identity'),
+                rule: loadReflection('my-rule'),
+                constructors: loadReflection('my-constructors')
+            };
+            
+            const completed = Object.values(reflections).filter(v => v && v.trim()).length;
+            const total = 7;
+            const percentage = Math.round((completed / total) * 100);
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem;';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+            
+            const content = document.createElement('div');
+            content.style.cssText = 'background: white; border-radius: 1rem; padding: 2rem; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;';
+            content.innerHTML = `
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 1.875rem; margin-bottom: 1rem;">Your Learning Progress</h2>
+                
+                <div style="background: linear-gradient(to right, #667eea, #764ba2); height: 2rem; border-radius: 0.5rem; margin-bottom: 1rem; overflow: hidden;">
+                    <div style="background: #48bb78; height: 100%; width: ${percentage}%; transition: width 0.5s; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        ${percentage}%
+                    </div>
+                </div>
+                
+                <p style="color: #4b5563; margin-bottom: 2rem;">${completed} of ${total} reflections completed</p>
+                
+                <div style="border-top: 2px solid #e5e7eb; padding-top: 1rem;">
+                    <h3 style="font-weight: 700; margin-bottom: 1rem;">Completed Sections:</h3>
+                    ${Object.entries({
+                        'Discovery Reflection': reflections.discovery,
+                        'Memo Decision': reflections.memo,
+                        'Line in the Sand': reflections.teleconference,
+                        'Boisjoly Moment': reflections.disaster,
+                        'Core Identity': reflections.identity,
+                        'Non-Negotiable Rule': reflections.rule,
+                        'Alternative Constructors': reflections.constructors
+                    }).map(([name, value]) => `
+                        <div style="display: flex; align-items: center; padding: 0.5rem 0;">
+                            <span style="font-size: 1.25rem; margin-right: 0.5rem;">${value && value.trim() ? '✅' : '⬜'}</span>
+                            <span style="${value && value.trim() ? 'color: #16a34a; font-weight: 600;' : 'color: #9ca3af;'}">${name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #e5e7eb;">
+                    <button onclick="exportReflections()" style="width: 100%; padding: 0.75rem; background: linear-gradient(to right, #9333ea, #3b82f6); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem;">
+                        📥 Download All Reflections
+                    </button>
+                    <button onclick="this.closest('[style*=fixed]').remove()" style="width: 100%; padding: 0.75rem; background: #e5e7eb; color: #1f2937; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+        }
+        
+        window.showProgress = showProgress;
+        
+        // Load saved reflections when tabs are rendered
+        function loadSavedReflections() {
+            const fields = ['discovery', 'memo', 'teleconference', 'disaster', 'my-identity', 'my-rule', 'my-constructors'];
+            fields.forEach(field => {
+                const element = document.getElementById(`reflection-${field}`) || document.getElementById(field);
+                if (element) {
+                    element.value = loadReflection(field);
+                }
+            });
+        }
+        
+        // Call this after rendering detail panel
+        const originalRenderDetailPanel = renderDetailPanel;
+        renderDetailPanel = function(event) {
+            originalRenderDetailPanel(event);
+            setTimeout(loadSavedReflections, 100);
+        };
+        
+        renderTimeline();
+    </script>
+</body>
 </html>
